@@ -92,7 +92,8 @@ regla3([CabezaLibro|CuerpoLibro],CondicionABuscar,Porcentaje, Presupuesto):- lib
 
 %Regla numero 4
 
-
+notName(FraseABuscar, Libro):- atomic_list_concat(Lista,' ',Libro),
+	not(existsInList(FraseABuscar,Lista)).
 
 booksEconomyNoCrisisEdward(Libros, PorCiento, AutorBuscado, CategoriaABuscar, FraseABuscar, Resultado, Presupuesto):- removeAllBooks(),
     sueldo(Sueldo), Presupuesto is (Sueldo * (PorCiento/100)), insertarLibrosEnLista(Libros),
@@ -102,7 +103,8 @@ booksEconomyNoCrisisEdward(Libros, PorCiento, AutorBuscado, CategoriaABuscar, Fr
 regla4([],_,_,_,_).
 regla4([CabezaLibro|CuerpoLibro], Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar):- 
     libro(CabezaLibro, Categoria, _, Autor, _, Precio, _),
-    (existsInList(CategoriaABuscar, Categoria), Autor == AutorBuscado, Precio =< Presupuesto, assertz(holding_books(CabezaLibro)),
+    (existsInList(CategoriaABuscar, Categoria), Autor == AutorBuscado, notName(FraseABuscar, CabezaLibro),
+    Precio =< Presupuesto, assertz(holding_books(CabezaLibro)),
     regla4(CuerpoLibro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar),!) ; 
     regla4(CuerpoLibro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar).
 
