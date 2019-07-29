@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuConsultasPredeterminadas">
+    <property name="title">
+     <string>Consultas Predeterminadas</string>
+    </property>
+    <addaction name="actionLibrosRecientesConEntradasExtraRegla1"/>
+    <addaction name="actionLibrosDeFiccinDe4OMsEstrellasConEntradasExtrasY10DeDescuento"/>
+    <addaction name="actionRegla3"/>
+    <addaction name="actionRegla4"/>
+    <addaction name="actionRegla5"/>
+   </widget>
+   <widget class="QMenu" name="menuLibrosComprados">
+    <property name="title">
+     <string>Libros comprados</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuConsultasNuevas">
+    <property name="title">
+     <string>Consultas nuevas</string>
+    </property>
+   </widget>
+   <addaction name="menuConsultasPredeterminadas"/>
+   <addaction name="menuConsultasNuevas"/>
+   <addaction name="menuLibrosComprados"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionLibrosRecientesConEntradasExtraRegla1">
+   <property name="text">
+    <string>Libros recientes con entradas extra (Regla #1)</string>
+   </property>
+  </action>
+  <action name="actionLibrosDeFiccinDe4OMsEstrellasConEntradasExtrasY10DeDescuento">
+   <property name="text">
+    <string>Libros de SciFi 4+ estrellas  10%+Extra (Regla #2)</string>
+   </property>
+  </action>
+  <action name="actionRegla3">
+   <property name="text">
+    <string>Regla #3</string>
+   </property>
+  </action>
+  <action name="actionRegla4">
+   <property name="text">
+    <string>Regla #4</string>
+   </property>
+  </action>
+  <action name="actionRegla5">
+   <property name="text">
+    <string>Regla #5</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
