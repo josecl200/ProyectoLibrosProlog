@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>486</height>
+    <width>620</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Libros por Rating y Categoria</string>
+   <string>Libros en un rango</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
@@ -25,8 +25,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>440</y>
+     <x>440</x>
+     <y>400</y>
      <width>171</width>
      <height>32</height>
     </rect>
@@ -60,9 +60,9 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>80</y>
-     <width>616</width>
+     <x>10</x>
+     <y>50</y>
+     <width>601</width>
      <height>341</height>
     </rect>
    </property>
@@ -96,7 +96,7 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
      <width>191</width>
      <height>30</height>
@@ -106,7 +106,7 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Rating</string>
+       <string>Costo maximo</string>
       </property>
      </widget>
     </item>
@@ -118,44 +118,22 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>50</y>
-     <width>201</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
-    <item>
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Categoria</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="comboBox"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
+     <x>220</x>
      <y>10</y>
-     <width>161</width>
-     <height>30</height>
+     <width>181</width>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <widget class="QLabel" name="label_5">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Antes de:</string>
+       <string>Presupuesto:</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QDateEdit" name="dateEdit"/>
+     <widget class="QLineEdit" name="lineEdit"/>
     </item>
    </layout>
   </widget>
@@ -164,20 +142,31 @@
     <rect>
      <x>420</x>
      <y>10</y>
-     <width>181</width>
-     <height>31</height>
+     <width>191</width>
+     <height>30</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Presupuesto:</string>
+       <string>Condicion</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QComboBox" name="comboBox_2">
+      <item>
+       <property name="text">
+        <string>Nuevos</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Usados</string>
+       </property>
+      </item>
+     </widget>
     </item>
    </layout>
   </widget>
