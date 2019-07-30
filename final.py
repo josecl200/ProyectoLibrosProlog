@@ -6,15 +6,15 @@ def main():
     prolog.consult("projectoFinal")
 
     #regla1(prolog,500,200)
-    #regla2(prolog, 300, "'drama'", 3)
+    regla2(prolog, 1000, "'ciencia ficcion'", 3)
     #regla3(prolog, "usado", 50)
-    regla4(prolog, 50, "marcos de mota", "ciencia ficcion", "hola")
+    #regla4(prolog, 50, "marcos de mota", "ciencia ficcion", "hola")
 
 
 
 def regla1(prolog, extramoney, days):
     finalList = []
-    list(prolog.query("booksXDaysOldTops(Libros,"+str(extramoney)+","+str(days)+",Resultado,Presupuesto)"))
+    result = list(prolog.query("booksXDaysOldTops(Libros,"+str(extramoney)+","+str(days)+",Resultado,Presupuesto, Combinaciones)"))
     booklist = getBookList(prolog)
 
     combinationList = getCombinations(booklist)
@@ -29,16 +29,19 @@ def regla1(prolog, extramoney, days):
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+   # print(finalList)
+    return booklist, result
 
 
 def regla2(prolog, extramoney, categoria, rating):
     booklist = []
     finalList = []
-    list(prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto)"))
+    result = list(prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto, Combinaciones)"))
     for search in prolog.query("holding_books(X)"):
         booklist.append(search["X"])
-        #print(search["X"])
+    for search in prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto, Combinaciones)"):
+        print(search["Combinaciones"])
+
 
     combinationList = getCombinations(booklist)
 
@@ -48,16 +51,17 @@ def regla2(prolog, extramoney, categoria, rating):
         for item in combination:
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
-        for queryResult in prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto)"):
+        for queryResult in prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto, Combinaciones)"):
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+    #print(finalList)
+    return booklist, result
 
 def regla3(prolog, condicion, porcentaje):
     booklist = []
     finalList = []
-    list(prolog.query("booksUsed50PercentMoreCategories(Libros,"+condicion+","+str(porcentaje)+",Resultado,Presupuesto)"))
+    result = list(prolog.query("booksUsed50PercentMoreCategories(Libros,"+condicion+","+str(porcentaje)+",Resultado,Presupuesto, Combinaciones)"))
     for search in prolog.query("holding_books(X)"):
         booklist.append(search["X"])
         #print(len(list(search["Categoria"])))
@@ -70,16 +74,17 @@ def regla3(prolog, condicion, porcentaje):
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
 
-        for queryResult in prolog.query("booksUsed50PercentMoreCategories(Libros,"+condicion+","+str(porcentaje)+",Resultado,Presupuesto)"):
+        for queryResult in prolog.query("booksUsed50PercentMoreCategories(Libros,"+condicion+","+str(porcentaje)+",Resultado,Presupuesto, Combinaciones)"):
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+    #print(finalList)
+    return booklist, result
 
 
 def regla4(prolog, porciento, autor, categoria, frase):
     finalList = []
-    list(prolog.query("booksEconomyNoCrisisEdward(Libros, "+str(porciento)+", '%s', '%s', '%s', Resultado, Presupuesto)"
+    result = list(prolog.query("booksEconomyNoCrisisEdward(Libros, "+str(porciento)+", '%s', '%s', '%s', Resultado, Presupuesto, Combinaciones)"
                       % (autor, categoria, frase)))
     booklist = getBookList(prolog)
 
@@ -90,17 +95,18 @@ def regla4(prolog, porciento, autor, categoria, frase):
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
 
-        for queryResult in prolog.query("booksEconomyNoCrisisEdward(Libros, "+str(porciento)+", '%s', '%s', '%s', Resultado, Presupuesto)"
+        for queryResult in prolog.query("booksEconomyNoCrisisEdward(Libros, "+str(porciento)+", '%s', '%s', '%s', Resultado, Presupuesto, Combinaciones)"
                       % (autor, categoria, frase)):
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+    #print(finalList)
+    return booklist, result
 
 
 def regla5(prolog, categoria, rating, meses):
     finalList = []
-    list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+str(meses)+", Resultado, Presupuesto)") % categoria)
+    result = list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+str(meses)+", Resultado, Presupuesto, Combinaciones)") % categoria)
     booklist = getBookList(prolog)
 
     combinationList = getCombinations(booklist)
@@ -111,17 +117,18 @@ def regla5(prolog, categoria, rating, meses):
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
 
-        for queryResult in prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+str(meses)+", Resultado, Presupuesto)")\
+        for queryResult in prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+str(meses)+", Resultado, Presupuesto, Combinaciones)")\
                            % categoria:
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+    #print(finalList)
+    return booklist, result
 
 
 def regla6(prolog, condicion, precio):
     finalList = []
-    list(prolog.query("booksConditionCheap(Libros , "+condicion+", "+str(precio)+", Resultado, Presupuesto)"))
+    result = list(prolog.query("booksConditionCheap(Libros , "+condicion+", "+str(precio)+", Resultado, Presupuesto, Combinaciones)"))
     booklist = getBookList(prolog)
 
     combinationList = getCombinations(booklist)
@@ -132,16 +139,17 @@ def regla6(prolog, condicion, precio):
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
 
-        for queryResult in prolog.query("booksConditionCheap(Libros , "+condicion+", "+str(precio)+", Resultado, Presupuesto)"):
+        for queryResult in prolog.query("booksConditionCheap(Libros , "+condicion+", "+str(precio)+", Resultado, Presupuesto, Combinaciones)"):
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
-    print(finalList)
+    #print(finalList)
+    return booklist, result
 
 
 def regla7(prolog, autor, rating):
     finalList = []
-    list(prolog.query("booksAuthorBest(Libros, '%s', "+rating+", Resultado, Presupuesto)") % autor)
+    result = list(prolog.query("booksAuthorBest(Libros, '%s', "+rating+", Resultado, Presupuesto, Combinaciones)") % autor)
     booklist = getBookList(prolog)
 
     combinationList = getCombinations(booklist)
@@ -152,11 +160,12 @@ def regla7(prolog, autor, rating):
             for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
                 preciototal += search["Precio"]
 
-        for queryResult in prolog.query("booksAuthorBest(Libros, '%s', "+rating+", Resultado, Presupuesto)") % autor:
+        for queryResult in prolog.query("booksAuthorBest(Libros, '%s', "+rating+", Resultado, Presupuesto, Combinaciones)") % autor:
             if preciototal <= queryResult["Presupuesto"]:
                 if len(combination) is not 0:
                     finalList.append(combination)
     print(finalList)
+    return booklist, result
 
 
 #Funcion que retorna la lista de libros
