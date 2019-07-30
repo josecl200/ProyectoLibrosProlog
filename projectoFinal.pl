@@ -154,3 +154,10 @@ regla7([CabezaLibro|CuerpoLibro], AutorBuscado, RatingDeseado, Presupuesto):- li
     (AutorBuscado == Autor, Rating == RatingDeseado, Precio =< Presupuesto, assertz(holding_books(CabezaLibro)),
     regla7(CuerpoLibro, AutorBuscado, RatingDeseado, Presupuesto), !) ; regla7(CuerpoLibro, AutorBuscado, RatingDeseado, Presupuesto).
 
+
+%Regla numero 8 (Obtener los libros de un autor que no pasen de un precio especificado que hallan salido antes de un año especifico)
+
+booksAuthorCheaperThanX(Libros, AutorBuscado, PrecioDeseado, Presupuesto, AnioBuscado, Resultado):-removeAllBooks(),sueldo(Sueldo),entradas_adicionales(Clavo), Presupuesto is Sueldo+Clavo, insertarLibrosEnLista(Libros),regla8(Libros,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado,Resultado).
+
+regla8([], _, _, _, _, _).
+regla8([CabezaLibro|ColaLibro],AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado,Resultado):- libro(CabezaLibro,_,_AutorBuscado,Fecha,Precio),(Precio =< PrecioBuscado, date_extract(Fecha,year(Y)), Y == AnioBuscado,assertz(holding_books(CabezaLibro)),regla8(ColaLibro,AutorBuscado,PrecioDeseadio,Presupuesto,AnioBuscado,Resultado));regla8(ColaLibro,AutorBuscado,PrecioDeseadio,Presupuesto,AnioBuscado,Resultado)
