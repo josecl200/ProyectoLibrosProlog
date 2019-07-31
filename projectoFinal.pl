@@ -49,29 +49,36 @@ insertarLibrosEnLista(Libros):- findall(X, libroNombre(X), Libros).
 %Regla numero 1
 
 booksXDaysOldTops(Libros,ExtraMoney,DaysOld,Resultado,Presupuesto,Combinaciones):- removeAllBooks(), Presupuesto is ExtraMoney, 
-    insertarLibrosEnLista(Libros), regla1(Libros,Presupuesto,DaysOld), getHoldingBooks(Resultado), 
+    findall(Libros, regla1(Libros,Presupuesto,DaysOld), Resultado), 
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla1([],_,_).
-regla1([CabezaLibro|CuerpoLibro], Presupuesto, DaysOld):- libro(CabezaLibro, _, _, _, ReleaseDate, Precio, _), date_get(today,Hoy),
+regla1(Libro, Presupuesto, DaysOld):- libro(Libro, _, _, _, ReleaseDate, Precio, _), date_get(today,Hoy),
     date_difference(Hoy,ReleaseDate,[years(_),months(_),days(D)]),
-    (D =< DaysOld , Precio =< Presupuesto, assertz(holding_books(CabezaLibro)), regla1(CuerpoLibro,Presupuesto,DaysOld)) ;
-    regla1(CuerpoLibro, Presupuesto, DaysOld).
+    (D =< DaysOld , Precio =< Presupuesto, assertz(holding_books(Libro))).
 
 %Regla numero 2
 
 
+%booksStarsCategoryExtraMoney(Libros, ExtraMoney, CategoriaABuscar, RatingDeseado, Resultado, Presupuesto, Combinaciones):- 
+%    removeAllBooks(), sueldo(Sueldo),
+%    Presupuesto is ExtraMoney + (Sueldo*0.10), insertarLibrosEnLista(Libros),
+%    regla2(Libros,Presupuesto,CategoriaABuscar,RatingDeseado), getHoldingBooks(Resultado), 
+%    findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
+
+%regla2([], _,  _, _).
+%regla2([CabezaLibro|CuerpoLibro], Presupuesto, CategoriaABuscar, RatingDeseado):- libro(CabezaLibro, Categoria, Rating, _, _, Precio, _), 
+%    (existsInList(CategoriaABuscar, Categoria), Rating >= RatingDeseado, Precio =< Presupuesto,
+%    assertz(holding_books(CabezaLibro)), regla2(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado),!) ; 
+%    regla2(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado).
+
 booksStarsCategoryExtraMoney(Libros, ExtraMoney, CategoriaABuscar, RatingDeseado, Resultado, Presupuesto, Combinaciones):- 
     removeAllBooks(), sueldo(Sueldo),
-    Presupuesto is ExtraMoney + (Sueldo*0.10), insertarLibrosEnLista(Libros),
-    regla2(Libros,Presupuesto,CategoriaABuscar,RatingDeseado), getHoldingBooks(Resultado), 
+    Presupuesto is ExtraMoney + (Sueldo*0.10), findall(Libros, regla2(Libros,Presupuesto,CategoriaABuscar,RatingDeseado), Resultado),
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla2([], _,  _, _).
-regla2([CabezaLibro|CuerpoLibro], Presupuesto, CategoriaABuscar, RatingDeseado):- libro(CabezaLibro, Categoria, Rating, _, _, Precio, _), 
+regla2(Libro, Presupuesto, CategoriaABuscar, RatingDeseado):- libro(Libro, Categoria, Rating, _, _, Precio, _), 
     (existsInList(CategoriaABuscar, Categoria), Rating >= RatingDeseado, Precio =< Presupuesto,
-    assertz(holding_books(CabezaLibro)), regla2(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado),!) ; 
-    regla2(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado).
+    assertz(holding_books(Libro))).
 
 existsInList(X, [X|_]).
 existsInList(X, [_|Y]):- existsInList(X, Y).
@@ -85,16 +92,13 @@ findMoreThanOneCategory(Libro, Res):-holding_books(Libro), libro(Libro, Categori
 
 
 booksUsed50PercentMoreCategories(Libros,Condicion,Porcentaje,Resultado,Presupuesto,Combinaciones):- removeAllBooks(), entradas_adicionales(Billetes),
-    Presupuesto is Billetes, insertarLibrosEnLista(Libros), regla3(Libros,Condicion,Porcentaje,Presupuesto), getHoldingBooks(Resultado),
+    Presupuesto is Billetes, findall(Libros, regla3(Libros,Condicion,Presupuesto), Resultado),
     ((length(Resultado, Cantidad), PorCientoLibros is (Cantidad * (Porcentaje/100)),  TotalPorCiento is floor(PorCientoLibros),
     findall(Res, findMoreThanOneCategory(_, Res), TotalMoreThanOne), length(TotalMoreThanOne, Total),
     Total >= TotalPorCiento, findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones)) ; (removeAllBooks(), fail)),!.
 
-regla3([],_,_,_).
-regla3([CabezaLibro|CuerpoLibro],CondicionABuscar,Porcentaje, Presupuesto):- libro(CabezaLibro,_,_,_,_,Precio,Condicion),
-    (Condicion == CondicionABuscar, Precio =< Presupuesto, assertz(holding_books(CabezaLibro)), 
-    regla3(CuerpoLibro,CondicionABuscar,Porcentaje, Presupuesto),!) ;
-    regla3(CuerpoLibro,CondicionABuscar,Porcentaje, Presupuesto).
+regla3(Libro,CondicionABuscar, Presupuesto):- libro(Libro,_,_,_,_,Precio,Condicion),
+    (Condicion == CondicionABuscar, Precio =< Presupuesto, assertz(holding_books(Libro))).
 
 
 %Regla numero 4
@@ -103,30 +107,25 @@ notName(FraseABuscar, Libro):- atomic_list_concat(Lista,' ',Libro),
 	not(existsInList(FraseABuscar,Lista)).
 
 booksEconomyNoCrisisEdward(Libros, PorCiento, AutorBuscado, CategoriaABuscar, FraseABuscar, Resultado, Presupuesto, Combinaciones):- 
-    removeAllBooks(), sueldo(Sueldo), Presupuesto is (Sueldo * (PorCiento/100)), insertarLibrosEnLista(Libros),
-    regla4(Libros, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar),
-    getHoldingBooks(Resultado), findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
+    removeAllBooks(), sueldo(Sueldo), Presupuesto is (Sueldo * (PorCiento/100)),
+    findall(Libros, regla4(Libros, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar), Resultado),
+    findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla4([],_,_,_,_).
-regla4([CabezaLibro|CuerpoLibro], Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar):- 
-    libro(CabezaLibro, Categoria, _, Autor, _, Precio, _),
-    (existsInList(CategoriaABuscar, Categoria), Autor == AutorBuscado, notName(FraseABuscar, CabezaLibro),
-    Precio =< Presupuesto, assertz(holding_books(CabezaLibro)),
-    regla4(CuerpoLibro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar),!) ; 
-    regla4(CuerpoLibro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar).
+regla4(Libro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar):- 
+    libro(Libro, Categoria, _, Autor, _, Precio, _),
+    (existsInList(CategoriaABuscar, Categoria), Autor == AutorBuscado, notName(FraseABuscar, Libro),
+    Precio =< Presupuesto, assertz(holding_books(Libro))).
 
 %Regla numero 5
 
 booksTripFiveStars(Libros, CategoriaABuscar, RatingDeseado, CantidadMeses, Resultado, Presupuesto, Combinaciones):- removeAllBooks(), 
-    sueldo(Sueldo), Presupuesto is Sueldo, insertarLibrosEnLista(Libros),
-    regla5(Libros, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses),
-    getHoldingBooks(Resultado), findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
+    sueldo(Sueldo), Presupuesto is Sueldo,
+    findall(Libros, regla5(Libros, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses), Resultado),
+    findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla5([],_,_,_,_).
-regla5([CabezaLibro|CuerpoLibro], Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses):- 
-    libro(CabezaLibro, Categoria, Rating, _, _, Precio, _), (existsInList(CategoriaABuscar, Categoria), Rating == RatingDeseado,
-    Precio =< Presupuesto, assertz(holding_books(CabezaLibro)), regla5(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses))
-    ; regla5(CuerpoLibro, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses).
+regla5(Libro, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses):- 
+    libro(Libro, Categoria, Rating, _, _, Precio, _), (existsInList(CategoriaABuscar, Categoria), Rating == RatingDeseado,
+    Precio =< Presupuesto, assertz(holding_books(Libro))).
 
 
 %Regla numero 6 (Libros nuevos o usados que cuesten menos de una cantidad pero que aun se puedan comprar con mi sueldo)
@@ -136,10 +135,8 @@ booksConditionCheap(Libros, CondicionABuscar, PrecioMaximo, Resultado, Presupues
     insertarLibrosEnLista(Libros), regla6(Libros, CondicionABuscar, PrecioMaximo, Presupuesto), getHoldingBooks(Resultado),
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla6([], _, _, _).
-regla6([CabezaLibro|CuerpoLibro], CondicionABuscar, PrecioMaximo, Presupuesto):- libro(CabezaLibro, _, _, _, _, Precio, Condicion),
-    (Condicion == CondicionABuscar, Precio =< PrecioMaximo, Precio =< Presupuesto, assertz(holding_books(CabezaLibro)),
-    regla6(CuerpoLibro, CondicionABuscar, PrecioMaximo, Presupuesto), !) ; regla6(CuerpoLibro, CondicionABuscar, PrecioMaximo, Presupuesto).
+regla6(Libro, CondicionABuscar, PrecioMaximo, Presupuesto):- libro(Libro, _, _, _, _, Precio, Condicion),
+    (Condicion == CondicionABuscar, Precio =< PrecioMaximo, Precio =< Presupuesto, assertz(holding_books(Libro))).
 
 
 %Regla numero 7 (Obtener los libros de un autor con un rating especifico teniendo como presupuesto mi sueldo mas mis entradas adicionales)
@@ -157,7 +154,10 @@ regla7([CabezaLibro|CuerpoLibro], AutorBuscado, RatingDeseado, Presupuesto):- li
 
 %Regla numero 8 (Obtener los libros de un autor que no pasen de un precio especificado que hallan salido antes de un año especifico)
 
-booksAuthorCheaperThanX(Libros, AutorBuscado, PrecioDeseado, Presupuesto, AnioBuscado, Resultado):-removeAllBooks(),sueldo(Sueldo),entradas_adicionales(Clavo), Presupuesto is Sueldo+Clavo, insertarLibrosEnLista(Libros),regla8(Libros,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado,Resultado).
+booksAuthorCheaperThanX(Libros, AutorBuscado, PrecioDeseado, Presupuesto, AnioBuscado, Resultado, Combinaciones):-removeAllBooks(),sueldo(Sueldo),
+entradas_adicionales(Clavo), Presupuesto is Sueldo+Clavo,
+findall(Libros, regla8(Libros,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado), Resultado),
+findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla8([], _, _, _, _, _).
-regla8([CabezaLibro|ColaLibro],AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado,Resultado):- libro(CabezaLibro,_,_AutorBuscado,Fecha,Precio),(Precio =< PrecioBuscado, date_extract(Fecha,year(Y)), Y == AnioBuscado,assertz(holding_books(CabezaLibro)),regla8(ColaLibro,AutorBuscado,PrecioDeseadio,Presupuesto,AnioBuscado,Resultado));regla8(ColaLibro,AutorBuscado,PrecioDeseadio,Presupuesto,AnioBuscado,Resultado)
+regla8(Libro,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado):- libro(Libro,_,_,AutorBuscado,Fecha,Precio),
+(Precio =< PrecioDeseado, Precio =< Presupuesto, date_extract(Fecha,year(Y)), Y == AnioBuscado, assertz(holding_books(Libro))).
