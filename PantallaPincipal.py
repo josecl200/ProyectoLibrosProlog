@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import Regla1
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -99,9 +99,11 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuConsultasPredeterminadas.menuAction())
         self.menubar.addAction(self.menuConsultasNuevas.menuAction())
 
+        #self.actionLibrosRecientesConEntradasExtraRegla1.triggered.connect()
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+    
+    
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Bookeeper"))
