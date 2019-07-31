@@ -1,9 +1,10 @@
 from pyswip import Prolog
 import itertools
 
-def main():
-    prolog = Prolog()
-    prolog.consult("projectoFinal")
+#def main():
+    #prolog = Prolog()
+    #prolog.consult("projectoFinal")
+    #print("Hola")
 
     #regla1(prolog,500,200)
     #booknames, combinaciones = regla2(prolog, 1000, "'ciencia ficcion'", 3)
@@ -12,6 +13,10 @@ def main():
     #print(combinaciones[0][0])
 
 
+def getProlog():
+    prolog = Prolog()
+    prolog.consult("projectoFinal")
+    return prolog
 
 def regla1(prolog, extramoney, days):
     finalList = []
@@ -153,4 +158,4 @@ def getCombinations(booklist):
 
 
 
-main()
+#main()
