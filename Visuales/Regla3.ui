@@ -57,7 +57,7 @@
     <string>Presupuesto:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="lblPresupuesto">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -93,6 +93,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pbBuscar">
+        <property name="text">
+         <string>Buscar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pbRemove">
         <property name="text">
          <string>&lt;&lt;</string>
@@ -124,7 +131,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QSpinBox" name="spinBox"/>
+     <widget class="QSpinBox" name="spnPorcentaje"/>
     </item>
    </layout>
   </widget>

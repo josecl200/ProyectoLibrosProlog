@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
+    <width>545</width>
     <height>490</height>
    </rect>
   </property>
@@ -127,7 +127,7 @@
       <string>Entradas adicionales</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="txtFondos_2">
+    <widget class="QTextEdit" name="txtEntradas">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -137,7 +137,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pbBonos_2">
+    <widget class="QPushButton" name="pbBonos">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -163,7 +163,7 @@
       <string>Fondos totales</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="lblFondosTotales">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -183,7 +183,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>626</width>
+     <width>545</width>
      <height>24</height>
     </rect>
    </property>
@@ -201,6 +201,9 @@
     <property name="title">
      <string>Consultas nuevas</string>
     </property>
+    <addaction name="actionLibrosQueCuestenMenosQueX"/>
+    <addaction name="actionLibrosDeUnRatingYUnAutorEnEspecifico"/>
+    <addaction name="actionLibrosDeUnAutorQueNoPasenDeXPrecioYHayanSalidoEnUnAoX"/>
    </widget>
    <addaction name="menuConsultasPredeterminadas"/>
    <addaction name="menuConsultasNuevas"/>
@@ -213,7 +216,7 @@
   </action>
   <action name="actionLibrosDeFiccinDe4OMsEstrellasConEntradasExtrasY10DeDescuento">
    <property name="text">
-    <string>Libros de SciFi 4+ estrellas  10%+Extra (Regla #2)</string>
+    <string>Regla #2</string>
    </property>
   </action>
   <action name="actionRegla3">
@@ -229,6 +232,21 @@
   <action name="actionRegla5">
    <property name="text">
     <string>Regla #5</string>
+   </property>
+  </action>
+  <action name="actionLibrosQueCuestenMenosQueX">
+   <property name="text">
+    <string>Libros que cuesten menos que X</string>
+   </property>
+  </action>
+  <action name="actionLibrosDeUnRatingYUnAutorEnEspecifico">
+   <property name="text">
+    <string>Libros de un rating y un autor en especifico</string>
+   </property>
+  </action>
+  <action name="actionLibrosDeUnAutorQueNoPasenDeXPrecioYHayanSalidoEnUnAoX">
+   <property name="text">
+    <string>Libros de un autor que no pasen de X precio y hayan salido en un año X</string>
    </property>
   </action>
  </widget>

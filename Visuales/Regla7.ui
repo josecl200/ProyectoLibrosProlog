@@ -80,6 +80,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pbBuscar">
+        <property name="text">
+         <string>Buscar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pbRemove">
         <property name="text">
          <string>&lt;&lt;</string>
@@ -111,7 +118,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QSpinBox" name="spinBox"/>
+     <widget class="QSpinBox" name="spnRating"/>
     </item>
    </layout>
   </widget>
@@ -133,7 +140,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="lineAutor"/>
     </item>
    </layout>
   </widget>
@@ -155,7 +162,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_2"/>
+     <widget class="QLineEdit" name="linePresupuesto"/>
     </item>
    </layout>
   </widget>
