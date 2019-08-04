@@ -19,24 +19,17 @@ def getProlog():
     return prolog
 
 def regla1(prolog, extramoney, days):
-    finalList = []
+    combinaciones = []
     result = list(prolog.query("booksXDaysOldTops(Libros,"+str(extramoney)+","+str(days)+",Resultado,Presupuesto, Combinaciones)"))
     booklist = getBookList(prolog)
+    for search in result:
+        for i in range(0, len(search["Combinaciones"])):
+            combinacion = []
+            for j in range(0, len(search["Combinaciones"][i])):
+                combinacion.append(search["Combinaciones"][i][j])
+            combinaciones.append(combinacion)
+    return booklist, combinaciones
 
-    combinationList = getCombinations(booklist)
-
-    # Verifica cuales combinaciones son validas
-    for combination in combinationList:
-        preciototal = 0
-        for item in combination:
-            for search in prolog.query("libro('%s', Categoria, Rating, Autor, Fecha, Precio, Condicion)" % item):
-                preciototal += search["Precio"]
-        for queryResult in prolog.query("booksStarsCategoryExtraMoney(Libros,"+str(extramoney)+","+str(days)+",Resultado,Presupuesto)"):
-            if preciototal <= queryResult["Presupuesto"]:
-                if len(combination) is not 0:
-                    finalList.append(combination)
-   # print(finalList)
-    return booklist, result
 
 
 def regla2(prolog, extramoney, categoria, rating):
