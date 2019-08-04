@@ -21,8 +21,11 @@ append([],T,T).
 append([H|T],T2,[H|R]) :-
     append(T,T2,R).
 
-sueldo(1000).
-entradas_adicionales(800).
+% sueldo(1000).
+% entradas_adicionales(800).
+
+assert(sueldo(0))
+assert(entradas_adicionales(0))
 
 removeAllBooks():- retractall(libros_sugeridos(Libro)), retractall(holding_books(Libro)).
 

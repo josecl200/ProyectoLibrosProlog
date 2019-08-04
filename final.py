@@ -156,6 +156,37 @@ def getCombinations(booklist):
             combinationList.append(list(subset))
     return combinationList
 
+def getBoughtBooks(prolog):
+    booklist=[]
+    for search in prolog.query("libros_comprados(Libro,_)"):
+        booklist.append(search["Libro"])
+    return booklist
+
+def setSalary(prolog, salary):
+    prolog.retractall("sueldo/1")
+    prolog.assertz("sueldo(%s)" % str(salary))
+    for sol in prolog.query("sueldo(Cualto)"):
+        salario = sol["Cualto"]
+        print("grasa" + str(salario))
+    
+
+def getSalary(prolog):
+    for sol in prolog.query("sueldo(Cualto)"):
+        salary = sol["Cualto"]
+        print("grasa" + str(salary))
+
+    return str(salary)
+
+def setClavo(prolog, clavo):
+    prolog.retractall("entradas_adicionales/1")
+    prolog.assertz("entradas_adicionales(%s)" % str(salary))
+    
+
+def getSalary(prolog):
+    for sol in prolog.query("sueldo(Cualto)"):
+        salary = sol["Cualto"]
+    return str(salary)
+
 
 
 #main()

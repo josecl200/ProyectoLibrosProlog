@@ -1,8 +1,10 @@
 import sys
-from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow
+from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget
 from PantallaPincipal import Ui_MainWindow
 import Regla1, Regla2, Regla3, Regla4, Regla5, Regla6, Regla7, Regla8
 import final
+
+prologa = final.getProlog()
 
 class WinRegla1(QDialog):
     def __init__(self):
@@ -61,12 +63,32 @@ class MainWindow(QMainWindow):
         self.ui.actionLibrosQueCuestenMenosQueX.triggered.connect(lambda: self.on_clicked(WinRegla6))
         self.ui.actionLibrosDeUnRatingYUnAutorEnEspecifico.triggered.connect(lambda: self.on_clicked(WinRegla7))
         self.ui.actionLibrosDeUnAutorQueNoPasenDeXPrecioYHayanSalidoEnUnAoX.triggered.connect(lambda: self.on_clicked(WinRegla8))
+        self.ui.pbFondos.clicked.connect(self.mandarSalario)
+        
+        if self.ui.centralwidget.hasFocus:
+            self.getComprados
         self.show()
+        
     
     def on_clicked(self,dialog):
         self.win=dialog()
         self.win.show()
+    
+    def getComprados(self):
+        listaLibros = final.getBoughtBooks(prologa)
+        for libro in listaLibros:
+            item = QListWidgetItem("%s", libro)
+            self.ui.listaComprados.addItem(item)
+    
 
+    def mostrarSalario(self):
+        cualto = final.getSalary(prologa)
+        self.ui.lblFondosTotales.setText(cualto)
+    
+    def mandarSalario(self):
+        saldo = self.ui.txtFondos.toPlainText()
+        final.setSalary(prologa,saldo)
+        self.mostrarSalario()
                                               
 
 app = QApplication(sys.argv)
