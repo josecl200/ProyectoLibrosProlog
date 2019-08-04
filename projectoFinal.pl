@@ -5,7 +5,6 @@ use_module(library(date_time)).
 :- dynamic libros_comprados/2.
 :- dynamic libros_sugeridos/1.
 :- dynamic combinaciones/1.
-
 :- dynamic holding_books/1.
 
 libroNombre('marcos').

@@ -162,6 +162,16 @@ def getBoughtBooks(prolog):
         booklist.append(search["Libro"])
     return booklist
 
+def getCategories(prolog):
+    categorias=[]
+    for sol in prolog.query("libro(_,Categories,_,_,_,_,_)"):
+        for cat in sol["Categories"]:
+            if str(cat) not in categorias:
+                categorias.append(str(cat))
+        
+    return categorias
+
+
 def setSalary(prolog, salary):
     prolog.retractall("sueldo/1")
     prolog.assertz("sueldo(%s)" % str(salary))    
