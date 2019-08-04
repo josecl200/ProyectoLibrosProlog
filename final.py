@@ -164,28 +164,26 @@ def getBoughtBooks(prolog):
 
 def setSalary(prolog, salary):
     prolog.retractall("sueldo/1")
-    prolog.assertz("sueldo(%s)" % str(salary))
-    for sol in prolog.query("sueldo(Cualto)"):
-        salario = sol["Cualto"]
-        print("grasa" + str(salario))
-    
+    prolog.assertz("sueldo(%s)" % str(salary))    
 
 def getSalary(prolog):
+    salary = 0
     for sol in prolog.query("sueldo(Cualto)"):
         salary = sol["Cualto"]
-        print("grasa" + str(salary))
 
-    return str(salary)
+    return salary
 
 def setClavo(prolog, clavo):
     prolog.retractall("entradas_adicionales/1")
-    prolog.assertz("entradas_adicionales(%s)" % str(salary))
+    prolog.assertz("entradas_adicionales(%s)" % str(clavo))
     
 
-def getSalary(prolog):
-    for sol in prolog.query("sueldo(Cualto)"):
-        salary = sol["Cualto"]
-    return str(salary)
+def getClavo(prolog):
+    clavo = 0
+    for sol in prolog.query("entradas_adicionales(Cualto)"):
+        clavo = sol["Cualto"]
+
+    return clavo
 
 
 

@@ -64,6 +64,7 @@ class MainWindow(QMainWindow):
         self.ui.actionLibrosDeUnRatingYUnAutorEnEspecifico.triggered.connect(lambda: self.on_clicked(WinRegla7))
         self.ui.actionLibrosDeUnAutorQueNoPasenDeXPrecioYHayanSalidoEnUnAoX.triggered.connect(lambda: self.on_clicked(WinRegla8))
         self.ui.pbFondos.clicked.connect(self.mandarSalario)
+        self.ui.pbBonos.clicked.connect(self.mandarClavo)
         
         if self.ui.centralwidget.hasFocus:
             self.getComprados
@@ -79,16 +80,22 @@ class MainWindow(QMainWindow):
         for libro in listaLibros:
             item = QListWidgetItem("%s", libro)
             self.ui.listaComprados.addItem(item)
-    
 
-    def mostrarSalario(self):
+    def mostrarDinero(self):
         cualto = final.getSalary(prologa)
-        self.ui.lblFondosTotales.setText(cualto)
+        clavo = final.getClavo(prologa)
+        total = str(cualto + clavo)
+        self.ui.lblFondosTotales.setText(total)
     
     def mandarSalario(self):
         saldo = self.ui.txtFondos.toPlainText()
         final.setSalary(prologa,saldo)
-        self.mostrarSalario()
+        self.mostrarDinero()
+    
+    def mandarClavo(self):
+        clavo = self.ui.txtEntradas.toPlainText()
+        final.setClavo(prologa,clavo)
+        self.mostrarDinero()
                                               
 
 app = QApplication(sys.argv)
