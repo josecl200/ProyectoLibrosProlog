@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget
+from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage
 from PyQt5 import QtGui
 from PantallaPincipal import Ui_MainWindow
 import Regla1, Regla2, Regla3, Regla4, Regla5, Regla6, Regla7, Regla8
@@ -15,12 +15,30 @@ class WinRegla1(QDialog):
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
         self.ui.lblPresupuesto.setText(str(final.getClavo(prologa)))
-        self.ui.pbBuscar.clicked.connect()
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+        
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        dias = int(self.ui.spnDias.value())
+        libros, combinaciones = final.regla1(prologa, final.getClavo(prologa), dias)
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
+
+        
+
+
     
-    
-
-
-
 class WinRegla2(QDialog):
     def __init__(self):
         super().__init__()

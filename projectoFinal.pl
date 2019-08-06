@@ -1,5 +1,5 @@
-import(date_time).
-use_module(library(date_time)).
+% :- import(date_time).
+:- use_module(library(date_time)).
 :- dynamic sueldo/1.
 :- dynamic entradas_adicionales/1.
 :- dynamic libros_comprados/2.
@@ -43,7 +43,7 @@ sum([CabezaLibro|CuerpoLibro],SumaTotal):- libro(CabezaLibro,_,_,_,_,Precio,_), 
 getHoldingBooks(Libros) :- findall(X, holding_books(X), Libros).
 
 %Regla que te dice la cantidad de libros que existen en el hecho de libro
-encontrarCantidadLibros(Cantidad):- findall(Libro, libro(Libro), Libros), length(Libros, Cantidad).
+encontrarCantidadLibros(Cantidad):- findall(Libro, libro(Libro,_,_,_,_,_,_), Libros), length(Libros, Cantidad).
 
 %Inserta todos los libros en una lista
 insertarLibrosEnLista(Libros):- findall(X, libroNombre(X), Libros).
