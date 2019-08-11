@@ -64,6 +64,7 @@ class Ui_Dialog(object):
         self.spnCosto = QtWidgets.QSpinBox(self.layoutWidget1)
         self.spnCosto.setObjectName("spnCosto")
         self.horizontalLayout_2.addWidget(self.spnCosto)
+        self.spnCosto.setRange(0,100000)
         self.layoutWidget2 = QtWidgets.QWidget(Dialog)
         self.layoutWidget2.setGeometry(QtCore.QRect(220, 10, 181, 31))
         self.layoutWidget2.setObjectName("layoutWidget2")

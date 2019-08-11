@@ -126,8 +126,8 @@ booksTripFiveStars(Libros, CategoriaABuscar, RatingDeseado, CantidadMeses, Resul
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
 regla5(Libro, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses):- 
-    libro(Libro, Categoria, Rating, _, _, Precio, _), (existsInList(CategoriaABuscar, Categoria), Rating == RatingDeseado,
-    Precio =< Presupuesto, assertz(holding_books(Libro))).
+    libro(Libro, Categoria, Rating, _, ReleaseDate, Precio, _), (existsInList(CategoriaABuscar, Categoria), Rating == RatingDeseado,
+    Precio =< Presupuesto, date_get(today,Hoy), date_difference(Hoy,ReleaseDate,[years(_),months(M),days(_)]), M =< CantidadMeses, assertz(holding_books(Libro))).
 
 
 %Regla numero 6 (Libros nuevos o usados que cuesten menos de una cantidad pero que aun se puedan comprar con mi sueldo)
@@ -157,9 +157,11 @@ regla7([CabezaLibro|CuerpoLibro], AutorBuscado, RatingDeseado, Presupuesto):- li
 %Regla numero 8 (Obtener los libros de un autor que no pasen de un precio especificado que hallan salido antes de un año especifico)
 
 booksAuthorCheaperThanX(Libros, AutorBuscado, PrecioDeseado, Presupuesto, AnioBuscado, Resultado, Combinaciones):-removeAllBooks(),sueldo(Sueldo),
-entradas_adicionales(Clavo), Presupuesto is Sueldo+Clavo,
-findall(Libros, regla8(Libros,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado), Resultado),
+entradas_adicionales(Clavo), Presupuesto is Sueldo+Clavo, insertarLibrosEnLista(Libros),
+regla8(Libros,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado), getHoldingBooks(Resultado),
 findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla8(Libro,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado):- libro(Libro,_,_,AutorBuscado,Fecha,Precio),
-(Precio =< PrecioDeseado, Precio =< Presupuesto, date_extract(Fecha,year(Y)), Y == AnioBuscado, assertz(holding_books(Libro))).
+regla8([], _, _, _).
+regla8([CabezaLibro|CuerpoLibro],AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado):- libro(CabezaLibro,_,_,AutorBuscado,Fecha,Precio,_),
+    (Precio =< PrecioDeseado, Precio =< Presupuesto, date_extract(Fecha,year(Y)), Y =< AnioBuscado, assertz(holding_books(CabezaLibro)),
+    regla8(CuerpoLibro,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado), !) ; regla8(CuerpoLibro,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado).

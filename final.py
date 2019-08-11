@@ -35,7 +35,7 @@ def regla1(prolog, extramoney, days):
 def regla2(prolog, extramoney, categoria, rating):
     booklist = []
     combinaciones = []
-    result = list(prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", "+categoria+", "+str(rating)+", Resultado, Presupuesto, Combinaciones)"))
+    result = list(prolog.query("booksStarsCategoryExtraMoney(Libros, "+str(extramoney)+", '"+categoria+"', "+str(rating)+", Resultado, Presupuesto, Combinaciones)"))
     for search in prolog.query("holding_books(X)"):
         booklist.append(search["X"])
     for search in result:
@@ -80,7 +80,7 @@ def regla4(prolog, porciento, autor, categoria, frase):
 
 def regla5(prolog, categoria, rating, meses):
     combinaciones = []
-    result = list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+str(meses)+", Resultado, Presupuesto, Combinaciones)") % categoria)
+    result = list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+meses+", Resultado, Presupuesto, Combinaciones)") % categoria)
     booklist = getBookList(prolog)
 
     for search in result:
@@ -121,7 +121,7 @@ def regla7(prolog, autor, rating):
 
 def regla8(prolog, autor, precioDeseado, anioBuscado):
     combinaciones = []
-    result = list(prolog.query("booksAuthorCheaperThanX(Libros, '%s', "+str(precioDeseado)+", Presupuesto, "+anioBuscado+", Resultado, Combinaciones)") % autor)
+    result = list(prolog.query("booksAuthorCheaperThanX(Libros,'"+autor+"', "+str(precioDeseado)+", Presupuesto, "+anioBuscado+", Resultado, Combinaciones)"))
     booklist = getBookList(prolog)
 
     for search in result:

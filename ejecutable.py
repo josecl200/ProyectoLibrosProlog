@@ -48,6 +48,24 @@ class WinRegla2(QDialog):
         self.ui.pbRemove.setDisabled(True)        
         self.ui.cbxCategoria.addItems(final.getCategories(prologa))
         self.ui.lblPresupuesto.setText(str(final.getClavo(prologa)))
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        libros, combinaciones = final.regla2(prologa, final.getClavo(prologa), self.ui.cbxCategoria.currentText(), self.ui.spnRating.value())
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 class WinRegla3(QDialog):
     def __init__(self):
@@ -57,6 +75,31 @@ class WinRegla3(QDialog):
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
         self.ui.lblPresupuesto.setText(str(final.getClavo(prologa) + final.getSalary(prologa)))
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        percent = int(self.ui.spnPorcentaje.value())
+        estado = "_"
+        if (self.ui.chkNuevo.isChecked() and (not self.ui.chkUsado.isChecked())):
+            estado="nuevo"
+        elif ((not self.ui.chkNuevo.isChecked()) and self.ui.chkUsado.isChecked()):
+            estado="usado"
+
+        libros, combinaciones = final.regla3(prologa,estado,percent)
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 
 class WinRegla4(QDialog):
@@ -66,6 +109,28 @@ class WinRegla4(QDialog):
         self.ui.setupUi(self)
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        percentSueldo = int(self.ui.spnPorcentajeSueldo.value())
+        autor = self.ui.txtAutor.text()
+        categoria = self.ui.cbxCategoria.currentText()
+        frase = self.ui.linePalabra.text()
+        libros, combinaciones = final.regla4(prologa,percentSueldo,autor,categoria,frase)
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 class WinRegla5(QDialog):
     def __init__(self):
@@ -75,6 +140,32 @@ class WinRegla5(QDialog):
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
         self.ui.cbxCategoria.addItems(final.getCategories(prologa))
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        categoria = self.ui.cbxCategoria.currentText()
+        rating = self.ui.spnRating.value()
+        fecha = self.ui.dateAntesDe.date()
+        dias = fecha.day()
+        meses = fecha.month()
+        anio = fecha.year()
+        fechapl = "date("+str(anio)+","+str(meses)+","+str(dias)+")"
+        
+        libros, combinaciones = final.regla5(prologa,categoria,rating,fechapl)
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
         
 
 class WinRegla6(QDialog):
@@ -84,6 +175,24 @@ class WinRegla6(QDialog):
         self.ui.setupUi(self)
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        libros, combinaciones = final.regla6(prologa,self.ui.cbxCondicion.currentText(),self.ui.spnCosto.value())
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 class WinRegla7(QDialog):
     def __init__(self):
@@ -92,6 +201,25 @@ class WinRegla7(QDialog):
         self.ui.setupUi(self)
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        autor = self.ui.lineAutor.text()
+        libros, combinaciones = final.regla7(prologa,autor,self.ui.spnRating.value())
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 class WinRegla8(QDialog):
     def __init__(self):
@@ -100,6 +228,30 @@ class WinRegla8(QDialog):
         self.ui.setupUi(self)  
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
+        self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.modelSugerencias = QtGui.QStandardItemModel()
+        self.ui.listSugerencias.setModel(self.modelSugerencias)
+    
+    def llenarListas(self):
+        if self.modelSugerencias.rowCount()>0:
+            self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        fecha = self.ui.dateAntesDe.date()
+        
+        anio = fecha.year()
+        print(anio)
+        autor = self.ui.lineAutor.text()
+        
+        libros, combinaciones = final.regla8(prologa,autor,self.ui.spnPrecio.value(),str(anio))
+        if(len(libros) == 0):
+            error_dialog = QErrorMessage(self)
+            error_dialog.showMessage('No existen libros con estos parametros')
+            error_dialog.exec_()
+        else:
+            for libro in libros:
+                item = QtGui.QStandardItem(libro)
+                self.modelSugerencias.appendRow(item)
+            self.ui.pbAdd.setEnabled(True)
+            self.ui.pbRemove.setEnabled(True)
 
 class MainWindow(QMainWindow):
     def __init__(self):
