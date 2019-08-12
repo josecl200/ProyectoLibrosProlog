@@ -67,7 +67,7 @@ class Ui_Dialog(object):
         self.spnDias = QtWidgets.QSpinBox(self.layoutWidget1)
         self.spnDias.setObjectName("spnDias")
         self.horizontalLayout_2.addWidget(self.spnDias)
-        self.spnCosto.setRange(0,100000)
+        self.spnDias.setRange(0,100000)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
