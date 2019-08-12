@@ -35,7 +35,7 @@ class WinRegla1(QDialog):
                     print(book)
                     item = QtGui.QStandardItem(str(book))
                     combineshan.appendRow(item)
-                if combo.__len__>0:
+                if combo.__len__()>0:
                     self.modelSugerencias.appendRow(combineshan)
                 
             self.ui.pbAdd.setEnabled(True)
@@ -67,9 +67,14 @@ class WinRegla2(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -103,9 +108,14 @@ class WinRegla3(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -138,9 +148,14 @@ class WinRegla4(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -173,9 +188,14 @@ class WinRegla5(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
         
@@ -206,9 +226,14 @@ class WinRegla6(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -233,9 +258,14 @@ class WinRegla7(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -265,9 +295,14 @@ class WinRegla8(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__()>0:
+                    self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 

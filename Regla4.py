@@ -30,7 +30,7 @@ class Ui_Dialog(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.listSugerencias = QtWidgets.QListView(self.layoutWidget)
+        self.listSugerencias = QtWidgets.QTreeView(self.layoutWidget)
         self.listSugerencias.setObjectName("listSugerencias")
         self.horizontalLayout.addWidget(self.listSugerencias)
         self.verticalLayout = QtWidgets.QVBoxLayout()
