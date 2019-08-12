@@ -63,6 +63,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.label)
         self.spnRating = QtWidgets.QSpinBox(self.layoutWidget1)
         self.spnRating.setObjectName("spnRating")
+        self.spnRating.setRange(0,5)
         self.horizontalLayout_2.addWidget(self.spnRating)
         self.layoutWidget2 = QtWidgets.QWidget(Dialog)
         self.layoutWidget2.setGeometry(QtCore.QRect(170, 10, 131, 31))

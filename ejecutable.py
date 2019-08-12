@@ -29,9 +29,15 @@ class WinRegla1(QDialog):
             error_dialog.showMessage('No existen libros con estos parametros')
             error_dialog.exec_()
         else:
-            for libro in libros:
-                item = QtGui.QStandardItem(libro)
-                self.modelSugerencias.appendRow(item)
+            for combo in combinaciones:
+                combineshan = QtGui.QStandardItem("Combinacion " + str(combinaciones.index(combo)))
+                for book in combo:
+                    print(book)
+                    item = QtGui.QStandardItem(str(book))
+                    combineshan.appendRow(item)
+                if combo.__len__>0:
+                    self.modelSugerencias.appendRow(combineshan)
+                
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
 
@@ -88,6 +94,8 @@ class WinRegla3(QDialog):
             estado="nuevo"
         elif ((not self.ui.chkNuevo.isChecked()) and self.ui.chkUsado.isChecked()):
             estado="usado"
+        else:
+            estado = "_"
 
         libros, combinaciones = final.regla3(prologa,estado,percent)
         if(len(libros) == 0):
@@ -110,17 +118,21 @@ class WinRegla4(QDialog):
         self.ui.pbAdd.setDisabled(True)
         self.ui.pbRemove.setDisabled(True)
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
+        self.ui.cbxCategoria.addItems(final.getCategories(prologa))
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
             self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
+        
         percentSueldo = int(self.ui.spnPorcentajeSueldo.value())
         autor = self.ui.txtAutor.text()
         categoria = self.ui.cbxCategoria.currentText()
         frase = self.ui.linePalabra.text()
+
         libros, combinaciones = final.regla4(prologa,percentSueldo,autor,categoria,frase)
+
         if(len(libros) == 0):
             error_dialog = QErrorMessage(self)
             error_dialog.showMessage('No existen libros con estos parametros')
@@ -178,11 +190,17 @@ class WinRegla6(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
-    
+        
     def llenarListas(self):
+        condicion = "_"
+
+        if (self.ui.cbxCondicion.currentText() == "Nuevos"):
+            condicion = "nuevo"
+        elif (self.ui.cbxCondicion.currentText() == "Usados"):
+            condicion = "usado"
         if self.modelSugerencias.rowCount()>0:
             self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
-        libros, combinaciones = final.regla6(prologa,self.ui.cbxCondicion.currentText(),self.ui.spnCosto.value())
+        libros, combinaciones = final.regla6(prologa,condicion,self.ui.spnCosto.value())
         if(len(libros) == 0):
             error_dialog = QErrorMessage(self)
             error_dialog.showMessage('No existen libros con estos parametros')

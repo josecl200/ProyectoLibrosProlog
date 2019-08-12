@@ -37,7 +37,7 @@ class Ui_Dialog(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.listSugerencias = QtWidgets.QListView(self.layoutWidget)
+        self.listSugerencias = QtWidgets.QTreeView(self.layoutWidget)
         self.listSugerencias.setObjectName("listSugerencias")
         self.horizontalLayout.addWidget(self.listSugerencias)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -67,6 +67,7 @@ class Ui_Dialog(object):
         self.spnDias = QtWidgets.QSpinBox(self.layoutWidget1)
         self.spnDias.setObjectName("spnDias")
         self.horizontalLayout_2.addWidget(self.spnDias)
+        self.spnCosto.setRange(0,100000)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
