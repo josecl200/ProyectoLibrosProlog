@@ -120,14 +120,15 @@ regla4(Libro, Presupuesto, AutorBuscado, CategoriaABuscar, FraseABuscar):-
 
 %Regla numero 5
 
-booksTripFiveStars(Libros, CategoriaABuscar, RatingDeseado, CantidadMeses, Resultado, Presupuesto, Combinaciones):- removeAllBooks(), 
+booksTripFiveStars(Libros, CategoriaABuscar, RatingDeseado, Resultado, Presupuesto, Combinaciones):- removeAllBooks(), 
     sueldo(Sueldo), Presupuesto is Sueldo,
-    findall(Libros, regla5(Libros, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses), Resultado),
+    findall(Libros, regla5(Libros, Presupuesto, CategoriaABuscar, RatingDeseado), Resultado),
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
-regla5(Libro, Presupuesto, CategoriaABuscar, RatingDeseado, CantidadMeses):- 
+regla5(Libro, Presupuesto, CategoriaABuscar, RatingDeseado):- 
     libro(Libro, Categoria, Rating, _, ReleaseDate, Precio, _), (existsInList(CategoriaABuscar, Categoria), Rating == RatingDeseado,
-    Precio =< Presupuesto, date_get(today,Hoy), date_difference(Hoy,ReleaseDate,[years(_),months(M),days(_)]), M =< CantidadMeses, assertz(holding_books(Libro))).
+    Precio =< Presupuesto, date_get(today,Hoy), date_difference(Hoy,ReleaseDate,[years(Y),months(M),days(_)]), 
+    Y == 0, M == 0, assertz(holding_books(Libro))).
 
 
 %Regla numero 6 (Libros nuevos o usados que cuesten menos de una cantidad pero que aun se puedan comprar con mi sueldo)
