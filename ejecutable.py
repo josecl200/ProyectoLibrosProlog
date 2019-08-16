@@ -18,6 +18,9 @@ class WinRegla1(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
         
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -40,6 +43,9 @@ class WinRegla1(QDialog):
                 
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+    
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
 
         
 
@@ -176,13 +182,8 @@ class WinRegla5(QDialog):
             self.modelSugerencias.removeRows(0,self.modelSugerencias.rowCount())
         categoria = self.ui.cbxCategoria.currentText()
         rating = self.ui.spnRating.value()
-        fecha = self.ui.dateAntesDe.date()
-        dias = fecha.day()
-        meses = fecha.month()
-        anio = fecha.year()
-        fechapl = "date("+str(anio)+","+str(meses)+","+str(dias)+")"
         
-        libros, combinaciones = final.regla5(prologa,categoria,rating,fechapl)
+        libros, combinaciones = final.regla5(prologa,categoria,rating)
         if(len(libros) == 0):
             error_dialog = QErrorMessage(self)
             error_dialog.showMessage('No existen libros con estos parametros')

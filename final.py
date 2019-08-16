@@ -78,9 +78,9 @@ def regla4(prolog, porciento, autor, categoria, frase):
     return booklist, combinaciones
 
 
-def regla5(prolog, categoria, rating, meses):
+def regla5(prolog, categoria, rating):
     combinaciones = []
-    result = list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", "+meses+", Resultado, Presupuesto, Combinaciones)") % categoria)
+    result = list(prolog.query("booksTripFiveStars(Libros, '%s', "+str(rating)+", Resultado, Presupuesto, Combinaciones)") % categoria)
     booklist = getBookList(prolog)
 
     for search in result:
