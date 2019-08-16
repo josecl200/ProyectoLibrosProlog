@@ -55,8 +55,9 @@ booksXDaysOldTops(Libros,ExtraMoney,DaysOld,Resultado,Presupuesto,Combinaciones)
     findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
 regla1(Libro, Presupuesto, DaysOld):- libro(Libro, _, _, _, ReleaseDate, Precio, _), date_get(today,Hoy),
-    date_difference(Hoy,ReleaseDate,[years(_),months(_),days(D)]),
-    (D =< DaysOld , Precio =< Presupuesto, assertz(holding_books(Libro))).
+    date_difference(Hoy,ReleaseDate,[years(_),months(_),days(D)]), AnioEnDias is Y*365, MesesEnDias is M*30, 
+    TotalDias is D+AnioEnDias+MesesEnDias,
+    TotalDias =< DaysOld , Precio =< Presupuesto, assertz(holding_books(Libro)).
 
 %Regla numero 2
 
