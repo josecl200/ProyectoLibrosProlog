@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage
+from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage, QDialogButtonBox
 from PyQt5 import QtGui
 from PantallaPincipal import Ui_MainWindow
 import Regla1, Regla2, Regla3, Regla4, Regla5, Regla6, Regla7, Regla8
@@ -21,6 +21,9 @@ class WinRegla1(QDialog):
         self.modelCarrito = QtGui.QStandardItemModel()
         self.ui.listCarrito.setModel(self.modelCarrito)
         self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect()
         
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -43,10 +46,14 @@ class WinRegla1(QDialog):
                 
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    
     
     def itemACarrito(self):
         self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
-
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
         
 
 
