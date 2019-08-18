@@ -16,7 +16,16 @@ import itertools
 def getProlog():
     prolog = Prolog()
     prolog.consult("projectoFinal")
+    prolog.query("['librosComprados.txt']")
     return prolog
+
+def buyBook(prolog, bookname):
+    fecha = ""
+    for result in prolog.query("date_get(today, Hoy)"):
+        fecha = result["Hoy"]
+
+    prolog.assertz("libros_comprados('"+bookname+"', "+fecha+"")
+    prolog.query("tell('librosComprados.txt'), listing(libros_comprados), told")
 
 def regla1(prolog, extramoney, days):
     combinaciones = []
