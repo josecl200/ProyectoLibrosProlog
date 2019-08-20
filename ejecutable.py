@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtWidgets import  QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage, QDialogButtonBox
+from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage, QDialogButtonBox
 from PyQt5 import QtGui
+from PyQt5.QtCore import *
 from PantallaPincipal import Ui_MainWindow
 import Regla1, Regla2, Regla3, Regla4, Regla5, Regla6, Regla7, Regla8
 import final
@@ -23,7 +24,7 @@ class WinRegla1(QDialog):
         self.ui.pbAdd.clicked.connect(self.itemACarrito)
         self.ui.pbRemove.clicked.connect(self.itemASeleccion)
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect()
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
         
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -54,10 +55,12 @@ class WinRegla1(QDialog):
     def itemASeleccion(self):
         self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
     def assertBoughtBooks(self):
-        
-
-
-    
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
+            
 class WinRegla2(QDialog):
     def __init__(self):
         super().__init__()
@@ -70,6 +73,12 @@ class WinRegla2(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -90,6 +99,18 @@ class WinRegla2(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
 
 class WinRegla3(QDialog):
     def __init__(self):
@@ -102,6 +123,12 @@ class WinRegla3(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -131,7 +158,17 @@ class WinRegla3(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
-
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
 
 class WinRegla4(QDialog):
     def __init__(self):
@@ -144,6 +181,12 @@ class WinRegla4(QDialog):
         self.ui.cbxCategoria.addItems(final.getCategories(prologa))
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -171,6 +214,17 @@ class WinRegla4(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
 
 class WinRegla5(QDialog):
     def __init__(self):
@@ -183,6 +237,12 @@ class WinRegla5(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -206,8 +266,19 @@ class WinRegla5(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
-        
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
 
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
+        
 class WinRegla6(QDialog):
     def __init__(self):
         super().__init__()
@@ -218,6 +289,12 @@ class WinRegla6(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
         
     def llenarListas(self):
         condicion = "_"
@@ -244,7 +321,18 @@ class WinRegla6(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
-
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
+                
 class WinRegla7(QDialog):
     def __init__(self):
         super().__init__()
@@ -255,6 +343,12 @@ class WinRegla7(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -276,6 +370,17 @@ class WinRegla7(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
 
 class WinRegla8(QDialog):
     def __init__(self):
@@ -287,6 +392,12 @@ class WinRegla8(QDialog):
         self.ui.pbBuscar.clicked.connect(self.llenarListas)
         self.modelSugerencias = QtGui.QStandardItemModel()
         self.ui.listSugerencias.setModel(self.modelSugerencias)
+        self.modelCarrito = QtGui.QStandardItemModel()
+        self.ui.listCarrito.setModel(self.modelCarrito)
+        self.ui.pbAdd.clicked.connect(self.itemACarrito)
+        self.ui.pbRemove.clicked.connect(self.itemASeleccion)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.assertBoughtBooks)
     
     def llenarListas(self):
         if self.modelSugerencias.rowCount()>0:
@@ -313,13 +424,25 @@ class WinRegla8(QDialog):
                     self.modelSugerencias.appendRow(combineshan)
             self.ui.pbAdd.setEnabled(True)
             self.ui.pbRemove.setEnabled(True)
+            self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+    def itemACarrito(self):
+        self.modelCarrito.appendRow(self.modelSugerencias.takeItem(self.ui.listSugerencias.currentIndex().row()))
+    def itemASeleccion(self):
+        self.modelSugerencias.appendRow(self.modelCarrito.takeItem(self.ui.listCarrito.currentIndex().row()))
+    def assertBoughtBooks(self):
+        for index in range(self.modelCarrito.rowCount()):
+            item = self.modelCarrito.item(index)
+            for libroIndex in range(item.rowCount()):
+                libro = item.child(libroIndex)
+                final.buyBook(prologa,libro.text())
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.getComprados
+        
+        
         #accion de los botones y menus        
         self.ui.actionLibrosRecientesConEntradasExtraRegla1.triggered.connect(lambda: self.on_clicked(WinRegla1))
         self.ui.actionLibrosDeFiccinDe4OMsEstrellasConEntradasExtrasY10DeDescuento.triggered.connect(lambda: self.on_clicked(WinRegla2))
@@ -335,7 +458,13 @@ class MainWindow(QMainWindow):
         
             
         self.show()
-        
+    
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.FocusIn:  
+            self.getComprados()
+            return True
+
+        return super(MainWindow, self).eventFilter(obj, event)
     
     def on_clicked(self,dialog):
         self.win=dialog()
@@ -365,7 +494,8 @@ class MainWindow(QMainWindow):
         clavo = self.ui.txtEntradas.toPlainText()
         final.setClavo(prologa,clavo)
         self.mostrarDinero()
-                                              
+    
+                    
 
 app = QApplication(sys.argv)
 w = MainWindow()

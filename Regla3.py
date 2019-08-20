@@ -52,7 +52,7 @@ class Ui_Dialog(object):
         self.pbRemove.setObjectName("pbRemove")
         self.verticalLayout.addWidget(self.pbRemove)
         self.horizontalLayout.addLayout(self.verticalLayout)
-        self.listCarrito = QtWidgets.QListView(self.layoutWidget)
+        self.listCarrito = QtWidgets.QTreeView(self.layoutWidget)
         self.listCarrito.setObjectName("listCarrito")
         self.horizontalLayout.addWidget(self.listCarrito)
         self.layoutWidget1 = QtWidgets.QWidget(Dialog)

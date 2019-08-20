@@ -24,7 +24,7 @@ def buyBook(prolog, bookname):
     for result in prolog.query("date_get(today, Hoy)"):
         fecha = result["Hoy"]
 
-    prolog.assertz("libros_comprados('"+bookname+"', "+fecha+"")
+    prolog.assertz("libros_comprados('"+bookname+"', "+fecha+")")
     prolog.query("tell('librosComprados.txt'), listing(libros_comprados), told")
 
 def regla1(prolog, extramoney, days):
