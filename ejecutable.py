@@ -1,10 +1,11 @@
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidgetItem, QListWidget, QErrorMessage, QDialogButtonBox
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import *
 from PantallaPincipal import Ui_MainWindow
 import Regla1, Regla2, Regla3, Regla4, Regla5, Regla6, Regla7, Regla8
 import final
+import time, threading, traceback
 
 prologa = final.getProlog()
 
@@ -60,6 +61,8 @@ class WinRegla1(QDialog):
             for libroIndex in range(item.rowCount()):
                 libro = item.child(libroIndex)
                 final.buyBook(prologa,libro.text())
+        listaLibros = final.getBoughtBooks(prologa)
+
             
 class WinRegla2(QDialog):
     def __init__(self):
@@ -332,7 +335,8 @@ class WinRegla6(QDialog):
             for libroIndex in range(item.rowCount()):
                 libro = item.child(libroIndex)
                 final.buyBook(prologa,libro.text())
-                
+        listaLibros = final.getBoughtBooks(prologa)
+        
 class WinRegla7(QDialog):
     def __init__(self):
         super().__init__()
@@ -441,6 +445,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.model = QtGui.QStandardItemModel()
         
         
         #accion de los botones y menus        
@@ -455,16 +460,15 @@ class MainWindow(QMainWindow):
         self.ui.pbFondos.clicked.connect(self.mandarSalario)
         self.ui.pbBonos.clicked.connect(self.mandarClavo)
         self.ui.pbExit.clicked.connect(self.close)
-        
-            
+        self.checkThreadTimer = QtCore.QTimer(self)
+        self.checkThreadTimer.setInterval(500)
+        self.checkThreadTimer.start(500)
+        self.checkThreadTimer.timeout.connect(self.getComprados)
+        self.ui.listaComprados.setModel(self.model)
         self.show()
-    
-    def eventFilter(self, obj, event):
-        if event.type() == QEvent.FocusIn:  
-            self.getComprados()
-            return True
-
-        return super(MainWindow, self).eventFilter(obj, event)
+ 
+            
+        
     
     def on_clicked(self,dialog):
         self.win=dialog()
@@ -472,12 +476,11 @@ class MainWindow(QMainWindow):
     
     def getComprados(self):
         listaLibros = final.getBoughtBooks(prologa)
-        print(listaLibros)
-        model = QtGui.QStandardItemModel()
-        self.ui.listaComprados.setModel(model)
+        self.model.clear()
+        
         for libro in listaLibros:
-            item = QtGui.QStandardItem(libro)
-            model.appendRow(item)     
+            item = QtGui.QStandardItem(str(libro))
+            self.model.appendRow(item)     
             
     def mostrarDinero(self):
         cualto = final.getSalary(prologa)

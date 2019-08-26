@@ -23,9 +23,9 @@ append([H|T],T2,[H|R]) :-
 % sueldo(1000).
 % entradas_adicionales(800).
 
-assertz(sueldo(0)).
-assertz(entradas_adicionales(0)).
-assertz(libros_comprados('marcos',date(2019,08,04))).
+:- assertz(sueldo(0)).
+:- assertz(entradas_adicionales(0)).
+
 removeAllBooks():- retractall(libros_sugeridos(Libro)), retractall(holding_books(Libro)).
 
 %Regla que devuelve todas las combinaciones posibles de una lista
