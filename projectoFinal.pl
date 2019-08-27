@@ -202,7 +202,7 @@ booksAuthorBest(Libros, AutorBuscado, RatingDeseado, Resultado, Presupuesto, Com
     getHoldingBooks(Resultado), findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
 regla7(Libro, AutorBuscado, RatingDeseado, Presupuesto):- libro(Libro,_,Rating,Autor,_,Precio,_),
-    AutorBuscado == Autor, Rating == RatingDeseado, Precio =< Presupuesto, assertz(holding_books(Libro).
+    AutorBuscado == Autor, Rating == RatingDeseado, Precio =< Presupuesto, assertz(holding_books(Libro)).
 
 
 %Regla numero 8 (Obtener los libros de un autor que no pasen de un precio especificado que hallan salido antes de un año especifico)
@@ -213,4 +213,4 @@ findall(Libros, regla8(Libros, AutorBuscado, PrecioDeseado, Presupuesto, AnioBus
 getHoldingBooks(Resultado),findall(X, getCombinations(Resultado, Presupuesto, X), Combinaciones).
 
 regla8(Libro,AutorBuscado,PrecioDeseado,Presupuesto,AnioBuscado):- libro(Libro,_,_,AutorBuscado,Fecha,Precio,_),
-    Precio =< PrecioDeseado, Precio =< Presupuesto, date_extract(Fecha,year(Y)), Y =< AnioBuscado, assertz(holding_books(Libro).
+    Precio =< PrecioDeseado, Precio =< Presupuesto, date_extract(Fecha,year(Y)), Y =< AnioBuscado, assertz(holding_books(Libro)).
